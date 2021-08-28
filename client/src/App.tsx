@@ -1,3 +1,4 @@
+import DemoPage from './Demo/DemoPage'
 import './App.scss'
 
 export default function App() {
@@ -6,6 +7,7 @@ export default function App() {
 
     return (
         <section className="App">
+            <DemoPage/>
         </section>
     )
 }
