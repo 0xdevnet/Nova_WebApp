@@ -1,5 +1,6 @@
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { GiFreedomDove } from "react-icons/gi"
 import { LCDClient, Extension, Wallet,MnemonicKey,MsgSend } from '@terra-money/terra.js'
 import './DemoPage.css'
 
@@ -19,9 +20,8 @@ h1Style = {
     width: '100vw', 
     height: '10vh', 
     margin: '0', 
-    padding: '0 0 0 25px',
-    fontFamily: 'Nova Square',
-    fontSize: '2.5rem',
+    padding: '0 0 0 50px',
+    fontSize: '3rem',
     borderBottom: '1px solid silver'
 },
 mainContentContainerStyle = {
@@ -141,7 +141,7 @@ export default class DemoPage extends React.Component {
       render() {
         return (
           <div style={demoContainerStyle}>
-            <h1 style={h1Style}>Spacecamp Nova Demo</h1>
+            <h1 style={h1Style}><GiFreedomDove/>&nbsp;<span style={{fontSize: '1.5rem', fontFamily: 'Nova Square'}}>Nova Demo</span></h1>
             <div style={mainContentContainerStyle}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
                     <div style={{width: '150px'}}>
