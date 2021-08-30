@@ -7,13 +7,7 @@ import ArtistSection from './ArtistSection/ArtistSection';
 import ThreeLevelContainer from './SubscriptionSection/ThreeLevelContainer';
 
 import './DemoPage.css';
-
-const style = {
-    height: 30,
-    border: "1px solid green",
-    margin: 6,
-    padding: 8
-};
+import { flex_column } from './Styles';
 
 const demoContainerStyle = {
     display: 'grid', placeItems: 'center'
@@ -27,37 +21,53 @@ mainContentContainerStyle = {
 
 const subscribe = (
   <div style={{width: '100%', height: '100px', display: 'grid', placeItems: 'center', margin: '0', padding: '0'}}>
-    <div style={{width: '95%', height: '50%', backgroundColor: '#9bddff',
-        display: 'grid', placeItems: 'center', borderRadius: '30px',
-        color: 'white', letterSpacing: '1px'}}>Subscribe to see the contents</div>
+    <div style={{width: '100%', height: '50%', backgroundColor: '#9bddff',
+        display: 'grid', placeItems: 'center', borderRadius: '15px',
+        color: 'white', letterSpacing: '1px'
+        }}>Subscribe to see the contents</div>
   </div>
 )
 
 const content = (
-  <div style={{width: '100%', height: '150px',
-  display: 'flex', flexDirection: 'row', justifyContent: 'left', alignItems: 'center', padding: '0 0 0 15px'}}>
-    Hello
+  <>
+  <div style={flex_column}>
+    <h3 style={{width: '100%'}}>Busan on the water</h3>
+    <p style={{width: '95%'}}>It's my first day in Busan! Long flight from NY but excited because I've been wanting to come here for a while. Also I heard that Terraform Labs is here... wen Busan?</p>
+    <img 
+    style={{width: '100%', height:'auto', borderRadius: '15px'}}
+    src="https://images.pexels.com/photos/5309285/pexels-photo-5309285.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="busan" />
   </div>
+  <div>
+    <h3>Last look at Times Square</h3>
+    <h6 style={{width: '100%', textAlign: 'right'}}>14 hours ago</h6>
+    <p>Lorem ipsum dolor, adipisicing elit. Dolorum dolor, consectetur sapiente exercitationem nam minima laborum ducimus ad saepe eveniet rem reiciendis possimus asperiores natus in praesentium odit, repellat nemo!</p>
+    <video width="100%" height="auto" style={{borderRadius: '15px'}} controls >
+      <source src="/Videos/newyork.mp4" type="video/mp4"/>
+    </video>  
+  </div>
+  <div>
+    <h3>Last look at Times Square</h3>
+    <h6 style={{width: '100%', textAlign: 'right'}}>14 hours ago</h6>
+    <p>Lorem ipsum dolor, adipisicing elit. Dolorum dolor, consectetur sapiente exercitationem nam minima laborum ducimus ad saepe eveniet rem reiciendis possimus asperiores natus in praesentium odit, repellat nemo!</p>
+    <video width="100%" height="auto" style={{borderRadius: '15px'}} controls >
+      <source src="/Videos/newyork.mp4" type="video/mp4"/>
+    </video>  
+  </div>
+  <div>
+    <h3>Last look at Times Square</h3>
+    <h6 style={{width: '100%', textAlign: 'right'}}>14 hours ago</h6>
+    <p>Lorem ipsum dolor, adipisicing elit. Dolorum dolor, consectetur sapiente exercitationem nam minima laborum ducimus ad saepe eveniet rem reiciendis possimus asperiores natus in praesentium odit, repellat nemo!</p>
+    <video width="100%" height="auto" style={{borderRadius: '15px'}} controls >
+      <source src="/Videos/newyork.mp4" type="video/mp4"/>
+    </video>  
+  </div>
+  </> 
 )
 
-const array: any = []
-
-for(let i = 0; i < 20; i++) {
-  array.push(content)
-}
 
 export default class DemoPage extends React.Component {
-    state = {
-        items: array
-      };
-    
-      fetchMoreData = () => {
-        setTimeout(() => {
-          this.setState({
-            items: this.state.items.concat(array)
-          });
-        }, 1500);
-      };
+
+      doNothing = () => null
 
       render() {
         return (
@@ -66,23 +76,19 @@ export default class DemoPage extends React.Component {
             <div style={mainContentContainerStyle}>
                 <ArtistSection/>
                 <InfiniteScroll
-                  dataLength={this.state.items.length}
-                  next={this.fetchMoreData}
-                  hasMore={true}
-                  loader={<h4>Loading...</h4>}
-                  style={{width: 'auto', margin: '5% 0 0 0', padding: '0', borderRadius: '30px 30px 0 0',
-                  boxShadow: 'rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset'}}
+                  dataLength={10}
+                  next={this.doNothing}
+                  hasMore={false}
+                  loader={null}
+                  style={{width: 'auto', margin: '5% 0 0 0', padding: '0 5%', borderRadius: '30px 30px 0 0',
+                  boxShadow: 'inset -9px -9px 13px #dededf, inset 9px 9px 13px #ffffff'}}
                   height="95vh"
                 >
                   {subscribe}
-                  <h3 style={{margin: '0', padding: '15px 0 0 15px'}}>Highlights</h3>
+                  <h3 style={{margin: '0', padding: '0'}}>Highlights</h3>
                   <Highlights/>
-                  <h3 style={{margin: '0', padding: '15px 0 0 15px'}}>Posts</h3>
-                  {this.state.items.map((i: any, index: any) => (
-                    <div style={style} key={index}>
-                     {i}
-                    </div>
-                  ))}
+                  <h3 style={{margin: '0', padding: '0'}}>Posts</h3>
+                  {content}
                 </InfiniteScroll>
                 <ThreeLevelContainer/>
             </div>

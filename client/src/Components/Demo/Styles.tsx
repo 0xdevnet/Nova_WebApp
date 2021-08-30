@@ -46,7 +46,7 @@ export const artist_picture_style: CSSProperties = {
     width: '60%',
     height: 'auto',
     borderRadius: '15px', 
-    boxShadow: 'rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px'
+    boxShadow: '-5px -5px 10px #e3e3e4, 5px 5px 10px #ffffff'
 }
 
 export const artist_name_style: CSSProperties = {
@@ -71,7 +71,7 @@ export const highlights_container_style: CSSProperties = {
     justifyContent: 'left', 
     alignItems: 'center', 
     margin: '0',
-    padding: '0 0 0 2.5%'
+    padding: '0'
 }
 
 export const highlights_button_style = (url: string): CSSProperties => {
@@ -99,18 +99,18 @@ export const subscription_container: CSSProperties = {
     height: '100vh',
 }
 
-export const ust_subscribe_container: CSSProperties = {
+export const subscribe_container: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
     justifyContent: 'space-evenly',
     width: '75%',
     height: '25%',
-    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+    boxShadow: '-9px -9px 13px #dededf, 9px 9px 13px #ffffff',
     borderRadius: '15px'
 }
 
-export const ust_subscribe_button_container: CSSProperties = {
+export const subscribe_button_container: CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -118,12 +118,11 @@ export const ust_subscribe_button_container: CSSProperties = {
     height: '25%'
 }
 
-export const ust_subscribe_button_style: CSSProperties = {
+export const subscribe_button_style: CSSProperties = {
     cursor: 'pointer',
     margin: '0',
     width: '35%',
     height: '70%',
-    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
     color: 'white',
     border: 'none',
     borderRadius: '5px',

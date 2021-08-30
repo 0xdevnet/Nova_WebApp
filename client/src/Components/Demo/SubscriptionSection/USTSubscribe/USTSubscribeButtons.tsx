@@ -6,8 +6,8 @@ import {
     MsgSend 
 } from "@terra-money/terra.js";
 import { 
-  ust_subscribe_button_container, 
-  ust_subscribe_button_style 
+  subscribe_button_container, 
+  subscribe_button_style 
 } from "../../Styles";
 
 const USTSubscribeButtons = () => {
@@ -40,14 +40,14 @@ const USTSubscribeButtons = () => {
     }
 
     return (
-        <div style={ust_subscribe_button_container}>
+        <div style={subscribe_button_container}>
 
             <button style={{
-              ...ust_subscribe_button_style, background: 'lightblue'
+              ...subscribe_button_style, background: 'lightblue'
             }} onClick={showTerraStation}>Deposit</button>
 
             <button style={{
-              ...ust_subscribe_button_style, background: 'pink'
+              ...subscribe_button_style, background: 'pink'
             }}>Withdraw</button>
 
         </div>
