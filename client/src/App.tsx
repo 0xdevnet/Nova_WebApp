@@ -1,4 +1,4 @@
-import DemoPage from './Demo/DemoPage'
+import DemoPage from './Components/Demo/DemoPage'
 import './App.scss'
 
 export default function App() {
