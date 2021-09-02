@@ -1,5 +1,5 @@
 import HighlightButton from "./HighlightButton"
-import { highlights_container_style } from "./Styles"
+import { highlights_container_style } from "../Styles"
 
 const button_url_one: string = "https://images.pexels.com/photos/821749/pexels-photo-821749.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 const button_url_two: string = "https://images.pexels.com/photos/4380970/pexels-photo-4380970.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"

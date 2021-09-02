@@ -1,4 +1,4 @@
-import { highlights_button_style } from "./Styles"
+import { highlights_button_style } from "../Styles"
 
 const HighlightButton = (props: { url: string; type: string; }) => (
     
