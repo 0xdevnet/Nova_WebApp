@@ -17,21 +17,15 @@ export const flex_column: CSSProperties = {
 
 /*--------------------------------------------------------*/
 
-//Demo Top Bar 
-export const dtb_h1_style: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100vw', 
-    height: '10vh', 
-    margin: '0', 
-    // padding: '0 0 0 50px',
-    fontSize: '3rem',
-} 
-
-export const dtb_span_style: CSSProperties = {
-    fontSize: '1.5rem', 
-    fontFamily: 'Nova Square'
-} 
+//Demo Page
+export const demo_container_style = {
+    display: 'grid', placeItems: 'center'
+},
+main_content_container_style = {
+    width: '100vw',
+    display: 'grid',
+    gridTemplateColumns: '1.5fr 4fr 2.5fr'
+}
 
 //Artist Profile
 

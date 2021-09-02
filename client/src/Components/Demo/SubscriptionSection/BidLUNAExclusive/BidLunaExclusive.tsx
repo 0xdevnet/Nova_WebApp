@@ -1,4 +1,8 @@
-import { subscribe_button_container, subscribe_button_style, subscribe_container } from "../../Styles"
+import { 
+    subscribe_button_container, 
+    subscribe_button_style, 
+    subscribe_container 
+} from "../../Styles"
 
 
 const BidLunaExclusive = () => {

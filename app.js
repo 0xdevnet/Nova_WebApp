@@ -2,27 +2,18 @@ import express from "express"
 import path from "path"
 import morgan from "morgan"
 import cors from 'cors'
-import mongoose from "mongoose"
 
 const app = express();
 const __dirname = path.resolve()
 
-//Connect to database
-mongoose.connect("mongodb+srv://BrianLee:adgj1597@cluster0.bpsak.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, () => {
-    console.log("MongoDB is connected.")
-})
-
 /* ---------- All App Use functions ---------- */
 
-app.use(morgan('tiny')) //outputs request/response times on terminal
-app.use(express.json()) //for communicating with Frontend with JSON
-app.use(express.static(path.join(__dirname, 'client/build'))) //routing to client folder (for elastic beanstalk)
-app.use(express.urlencoded({ extended: false })) //for login authentication functions setting
+app.use(morgan('tiny')) 
+app.use(express.json()) 
+app.use(express.static(path.join(__dirname, 'client/build'))) 
+app.use(express.urlencoded({ extended: false }))
 
-app.use(cors({ //for local development, to make sure that localhost:3000 is not rejected
+app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }))

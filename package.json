@@ -23,19 +23,10 @@
   },
   "homepage": "https://github.com/brianlee1597/acorns_dev#readme",
   "dependencies": {
-    "axios": "^0.21.1",
-    "bcryptjs": "^2.4.3",
+    "JSON": "^1.0.0",
     "concurrently": "^6.2.0",
-    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "http-build-query": "^0.7.0",
-    "JSON": "^1.0.0",
-    "mongoose": "^5.13.2",
-    "morgan": "^1.10.0",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "request": "^2.88.2"
+    "morgan": "^1.10.0"
   }
 }

@@ -5,6 +5,7 @@ import { flex_column } from '../Styles';
 const busan = "https://images.pexels.com/photos/5309285/pexels-photo-5309285.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 
 
+//clean this up
 const content = (
     <>
     <div style={flex_column}>
