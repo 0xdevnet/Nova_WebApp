@@ -56,6 +56,15 @@ export const artist_description_style: CSSProperties = {
     letterSpacing: '1px'
 }
 
+//Content General
+export const content_section: CSSProperties = {
+    width: 'auto', 
+    margin: '5% 0 0 0', 
+    padding: '0 5%', 
+    borderRadius: '30px 30px 0 0',
+    boxShadow: 'inset -9px -9px 13px #dededf, inset 9px 9px 13px #ffffff'
+}
+
 //Highlights Section
 export const highlights_container_style: CSSProperties = {
     width: '600px', 
@@ -82,6 +91,23 @@ export const highlights_button_style = (url: string): CSSProperties => {
         fontSize: '1rem',
         letterSpacing: '1px'
     }
+}
+
+//content bubble section
+export const content_bubble_container: CSSProperties = {
+    ...flex_column, marginBottom: '50px'
+}
+
+export const title_style: CSSProperties = {
+    width: '100%', margin:'0'
+}
+
+export const description_style: CSSProperties = {
+    width: '100%', margin: '25px 0 25px 0'
+}
+
+export const content_bubble_img: CSSProperties = {
+    width: '100%', height:'auto', borderRadius: '15px'
 }
 
 //Subscription Section
