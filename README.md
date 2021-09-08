@@ -1,6 +1,7 @@
 # Nova_Demo
 
-make sure all dependencies in both root/client folder are installed using npm
-then run `npm run dev` on root
+the repository contains client folder (react), smart contract workshop folder (compiled .wasm and terra.js), and backend on root. 
 
-Do not change .ebextensions or Procfile
+the deployed SC was a Terra Academy contract about LP's. For spacecamp submission / practice only and ultimately unrelated to the demo or our future functionalities.
+
+for demo: please run npm install on root and client folder, then run `npm run dev` on root.
