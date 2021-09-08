@@ -94,6 +94,27 @@ export const highlights_button_style = (url: string): CSSProperties => {
 }
 
 //content bubble section
+export const subscribe_top_container: CSSProperties = {
+    width: '100%', 
+    height: '100px', 
+    display: 'grid', 
+    placeItems: 'center', 
+    margin: '0',
+    padding: '0'
+}
+
+export const subscribe_top: CSSProperties = {
+    width: '100%', 
+    height: '50%', 
+    backgroundColor: '#9bddff',
+    display: 'grid', 
+    placeItems: 'center', 
+    borderRadius: '15px',
+    color: 'white', 
+    letterSpacing: '1px', 
+    cursor: 'pointer'
+}
+
 export const content_bubble_container: CSSProperties = {
     ...flex_column, marginBottom: '50px'
 }
