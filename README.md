@@ -1,4 +1,4 @@
-# Nova_Demo
+# Nova Demo
 
 the repository contains client folder (react), smart contract workshop folder (compiled .wasm and terra.js), and backend on root. 
 
