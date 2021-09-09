@@ -31,7 +31,8 @@ main_content_container_style = {
 
 export const artist_section_style: CSSProperties = {
     ...flex_column, 
-    justifyContent: 'top',
+    height: '90vh',
+    justifyContent: 'space-evenly',
     textAlign: 'center'
 }
 
@@ -89,7 +90,8 @@ export const highlights_button_style = (url: string): CSSProperties => {
         borderRadius: '15px',
         color: 'white',
         fontSize: '1rem',
-        letterSpacing: '1px'
+        letterSpacing: '1px',
+        cursor: 'pointer'
     }
 }
 

@@ -1,13 +1,14 @@
 import DemoPage from './Components/Demo/DemoPage'
 import './App.scss'
+import WindowDimensions from './Hooks/WindowDimension'
+import SmallViewPortWarning from './Components/Demo/SmallViewportWarning'
 
 export default function App() {
-
-    /* ----- Component Functions -----*/
+    const {width, } = WindowDimensions()
 
     return (
         <section className="App">
-            <DemoPage/>
+            {width < 1000? <SmallViewPortWarning/>: <DemoPage/>}
         </section>
     )
 }
