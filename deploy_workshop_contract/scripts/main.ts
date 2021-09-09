@@ -3,7 +3,7 @@ import BN from "bn.js";
 import chalk from "chalk";
 import * as chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { LocalTerra, MsgExecuteContract } from "@terra-money/terra.js";
+import { LCDClient, LocalTerra, MnemonicKey, MsgExecuteContract } from "@terra-money/terra.js";
 import {
   toEncodedBinary,
   sendTransaction,
@@ -16,8 +16,11 @@ import {
 chai.use(chaiAsPromised);
 const { expect } = chai;
 
-const terra = new LocalTerra();
-const deployer = terra.wallets.test1;
+const terra = new LocalTerra()
+
+console.log(terra)
+
+const deployer = terra.wallets.test1
 const user1 = terra.wallets.test2;
 const user2 = terra.wallets.test3;
 
@@ -27,7 +30,7 @@ let terraswap_lp_token: string;
 
 //-----------------------------------------//
 
-async function setupTest() {
+const setupTest = async () => {
   const cw20_code_id = await storeCode(terra, deployer, '../artifacts/terraswap_token.wasm')
   
   console.log("CW20 Code Id: " + cw20_code_id)
@@ -37,7 +40,7 @@ async function setupTest() {
     symbol: 'MIR',
     decimals: 6,
     initial_balances: [],
-    mint: { minter: deployer.key.accAddress },
+    mint: { minter: deployer.key.accAddress }
   })
 
   mirror_token = tokenResult.logs[0].events[0].attributes[3].value
@@ -53,11 +56,11 @@ async function setupTest() {
     token_code_id: cw20_code_id
   })
 
-  const event = pair_result.logs[0].events.find((event) => {
-    return event.type == "instantiate_contract"
-  })
+  const event = pair_result.logs[0].events.find((event) => event.type == "instantiate_contract")
 
-  terraswap_pair = event?.attributes[3].value as string
+  console.log(pair_result)
+
+  terraswap_pair     = event?.attributes[3].value as string
   terraswap_lp_token = event?.attributes[7].value as string
 
   await sendTransaction(terra, deployer, [
@@ -76,22 +79,13 @@ async function setupTest() {
   ])
 
   console.log("Finished Setup. :)")
+
+  console.log("Mirror Token: " + mirror_token)
+  console.log("Terraswap Pair: " + terraswap_pair)
+  console.log("Terraswap LP Token: " + terraswap_lp_token)
 }
 
-//----------------------------------------------------------------------------------------
-// Test 1. Provide Initial Liquidity
-//
-// User 1 provides 69 MIR + 420 UST
-// User 1 should receive sqrt(69000000 * 420000000) = 170235131 uLP
-//
-// Result
-// ---
-// pool uMIR  69000000
-// pool uusd  420000000
-// user uLP   170235131
-//----------------------------------------------------------------------------------------
-
-async function testProvideLiquidity() {
+const testProvideLiquidity = async () => {
   await sendTransaction(terra, user1, [
     new MsgExecuteContract(user1.key.accAddress, mirror_token, {
       increase_allowance: {
@@ -102,75 +96,98 @@ async function testProvideLiquidity() {
     new MsgExecuteContract(user1.key.accAddress, terraswap_pair, {
       provide_liquidity: {
         assets: [
-          { //Mirror
-            info: {
-              token: {
-                contract_addr: mirror_token
-              }
-            },
+          { //MIR
+            info: { token: { contract_addr: mirror_token } },
             amount: '69000000'
           },
           { //UST
-            info: {
-              native_token: {
-                denom: 'uusd',
-                amount: '420000000'
-              }
-            }
+            info: { native_token: { denom: 'uusd' } },
+            amount: '420000000'
           }
         ]
       }
+    }, 
+    {
+      uusd: "420000000"
     })
   ])
 
-  const pairMir = await queryTokenBalance(terra, terraswap_pair, mirror_token)
-  expect(pairMir).to.equal("69000000")
+  const pair_mir = await queryTokenBalance(terra, terraswap_pair, mirror_token)
+  expect(pair_mir).to.equal("69000000")
 
-  const pairUSD = await queryNativeTokenBalance(terra, terraswap_pair, 'uusd')
-  expect(pairUSD).to.equal("420000000")
+  const pair_usd = await queryNativeTokenBalance(terra, terraswap_pair, 'uusd')
+  expect(pair_usd).to.equal("420000000")
+
+  const user_lp = await queryTokenBalance(terra, user1.key.accAddress, terraswap_lp_token)
+  expect(user_lp).to.equal("170235131")
+
+  console.log("Test 1 Passed! :)")
 }
 
-//----------------------------------------------------------------------------------------
-// Test 2. Swap
-//
-// User 2 sells 1 MIR for UST
-//
-// k = poolUMir * poolUUsd
-// = 69000000 * 420000000 = 28980000000000000
-// returnAmount = poolUusd - k / (poolUMir + offerUMir)
-// = 420000000 - 28980000000000000 / (69000000 + 1000000)
-// = 6000000
-// fee = returnAmount * feeRate
-// = 6000000 * 0.003
-// = 18000
-// returnAmountAfterFee = returnUstAmount - fee
-// = 6000000 - 18000
-// = 5982000
-// returnAmountAfterFeeAndTax = deductTax(5982000) = 5976023
-// transaction cost for pool = addTax(5976023) = 5981999
-//
-// Result
-// ---
-// pool uMIR  69000000 + 1000000 = 70000000
-// pool uusd  420000000 - 5981999 = 414018001
-// user uLP   170235131
-// user uMIR  10000000000 - 1000000 = 9999000000
-// user uusd  balanceBeforeSwap + 5976023 - 4500000 (gas)
-//----------------------------------------------------------------------------------------
+const testSwap = async () => {
+  process.stdout.write("Should swap... ");
 
-async function testSwap() {
-  
+  const userUusdBefore = await queryNativeTokenBalance(
+    terra,
+    user2.key.accAddress,
+    "uusd"
+  );
+
+  await sendTransaction(terra, user2, [
+    new MsgExecuteContract(user2.key.accAddress, mirror_token, {
+      send: {
+        amount: "1000000",
+        contract: terraswap_pair,
+        msg: toEncodedBinary({
+          swap: {},
+        }),
+      },
+    }),
+  ]);
+
+  const poolUMir = await queryTokenBalance(terra, terraswap_pair, mirror_token);
+  expect(poolUMir).to.equal("70000000");
+
+  const poolUUsd = await queryNativeTokenBalance(terra, terraswap_pair, "uusd");
+  expect(poolUUsd).to.equal("414018001");
+
+  const userULp = await queryTokenBalance(terra, user1.key.accAddress, terraswap_lp_token);
+  expect(userULp).to.equal("170235131");
+
+  const userUMir = await queryTokenBalance(terra, user2.key.accAddress, mirror_token);
+  expect(userUMir).to.equal("1336000000");
+
+  const userUusdExpected = new BN(userUusdBefore)
+    .add(new BN("5976023"))
+    .sub(new BN("4500000"))
+    .toString();
+
+  const userUUsd = await queryNativeTokenBalance(terra, user2.key.accAddress, "uusd");
+  expect(userUUsd).to.equal(userUusdExpected);
+
+  console.log(chalk.green("Passed!"));
 }
 
-//----------------------------------------------------------------------------------------
-// Test 3. Slippage tolerance
-//
-// User 2 tries to swap a large amount of MIR (say 50 MIR, while the pool only has 70) to
-// UST with a low max spread. The transaction should fail
-//----------------------------------------------------------------------------------------
+const testSlippage = async () => {
+  process.stdout.write("Should check max spread... ")
 
-async function testSlippage() {
-  
+  await expect(
+    sendTransaction(terra, user2, [
+      new MsgExecuteContract(user2.key.accAddress, mirror_token, {
+        send: {
+          amount: "50000000",
+          contract: terraswap_pair,
+          msg: toEncodedBinary({
+            swap: {
+              max_spread: "0.01",
+            },
+          }),
+        },
+      }),
+    ])
+  ).to.be.rejectedWith("Max spread assertion")
+
+  console.log(chalk.green("Passed!"))
 }
 
 //----------------------------------------------------------------------------------------
@@ -178,21 +195,21 @@ async function testSlippage() {
 //----------------------------------------------------------------------------------------
 
 (async () => {
-  console.log(chalk.yellow("\nStep 1. Info"));
+  console.log(chalk.yellow("\nStep 1. Info"))
 
-  console.log(`Use ${chalk.cyan(deployer.key.accAddress)} as deployer`);
-  console.log(`Use ${chalk.cyan(user1.key.accAddress)} as user 1`);
-  console.log(`Use ${chalk.cyan(user2.key.accAddress)} as user 1`);
+  console.log(`Use ${chalk.cyan(deployer.key.accAddress)} as deployer`)
+  console.log(`Use ${chalk.cyan(user1.key.accAddress)} as user 1`)
+  console.log(`Use ${chalk.cyan(user2.key.accAddress)} as user 2`)
 
-  console.log(chalk.yellow("\nStep 2. Setup"));
+  console.log(chalk.yellow("\nStep 2. Setup"))
 
-  await setupTest();
+  await setupTest()
 
-  // console.log(chalk.yellow("\nStep 3. Tests"));
+  console.log(chalk.yellow("\nStep 3. Tests"))
 
-  // await testProvideLiquidity();
-  // await testSwap();
-  // await testSlippage();
+  await testProvideLiquidity()
+  await testSwap()
+  await testSlippage()
 
-  console.log("");
-})();
+  console.log("")
+})()
